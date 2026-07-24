@@ -1,0 +1,43 @@
+name: CI - Test and Validate Training
+
+on:
+
+  push:
+
+    branches: [main]
+
+  pull_request:
+
+    branches: [main]
+
+jobs:
+
+  test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+
+        uses: actions/setup-python@v5
+
+        with:
+
+          python-version: '3.10'
+
+      - name: Install dependencies
+
+        run: pip install -r requirements.txt
+
+      - name: Run training script (smoke test)
+
+        env:
+
+          MLFLOW_TRACKING_USERNAME: ${{ secrets.DAGSHUB_USERNAME }}
+
+          MLFLOW_TRACKING_PASSWORD: ${{ secrets.DAGSHUB_TOKEN }}
+
+        run: python train.py
