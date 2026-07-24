@@ -21,7 +21,8 @@ import os
 token = os.getenv("DAGSHUB_USER_TOKEN") or os.getenv("DAGSHUB_TOKEN") or os.getenv("MLFLOW_TRACKING_PASSWORD")
 
 if token:
-    dagshub.init(repo_owner='mohaedafham2004', repo_name='mlops_mini_project', mlflow=True, token=token)
+    os.environ["DAGSHUB_USER_TOKEN"] = token
+    dagshub.init(repo_owner='mohaedafham2004', repo_name='mlops_mini_project', mlflow=True)
 elif os.getenv("CI") == "true":
     print("Running in CI without DagsHub token. Logging MLflow metrics locally.")
 else:
